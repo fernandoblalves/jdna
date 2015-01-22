@@ -44,7 +44,7 @@ public class JDNA {
     static final int ONEMB = 1024 * 1024;
     private static final int FASTA_LINE_SIZE_MARGIN = 100;
     static final int FASTA_LINE_SIZE = 60;
-    static int KMER_SIZE = 20;
+    static int KMER_SIZE = 22;
     static int DECOMPRESS_MEM = ONEMB;
     static int SEARCH_WINDOW = 120;
     static int INDEX_WINDOW = 200;
@@ -59,8 +59,6 @@ public class JDNA {
             printUsage();
             System.exit(0);
         }
-
-        System.err.println("Start!");
 
         File refFile = new File(args[1]);
         File inputFile = new File(args[2]);

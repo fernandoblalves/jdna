@@ -32,11 +32,11 @@ import java.util.ArrayList;
  */
 class CompressionWriter {
 
-    private BitOutputStream bos;
-    private int maxBits;
+    private final BitOutputStream bos;
+    private final int maxBits;
     //
-    private ArrayList<Character> characters;
-    private ArrayList<Integer> nPositions;
+    private final ArrayList<Character> characters;
+    private final ArrayList<Integer> nPositions;
     //
     private static final byte AA = 0x0;
     private static final byte CC = 0x1;

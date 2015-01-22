@@ -42,9 +42,9 @@ import java.util.zip.GZIPInputStream;
 public class Decompressor {
 
     private static final int CHAR_SIZE = 3;
-    private int MAXIMUM_NUMBER_BITS;
-    private long blockSize;
-    private byte[] ref;
+    private final int MAXIMUM_NUMBER_BITS;
+    private final long blockSize;
+    private final byte[] ref;
     private BufferedOutputStream dcmpWriter;
     private static final boolean debugDecompression = false;
     private int charCounter;
