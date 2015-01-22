@@ -159,9 +159,6 @@ class Compressor {
 
     private class KmerTable {
 
-        private double indexTime;
-        private long st, et;
-
         private static final int INITIAL_SIZE = 5;
         private static final int INCREASE_FACTOR = 10;
         private static final int blockSizeRatio = 100;
@@ -178,7 +175,6 @@ class Compressor {
         private final int[] counter;
         private int[] multiplier;
         private final static int numChars = 5;
-        private int indexes;
         private boolean indexing;
 
         //create table
@@ -191,7 +187,7 @@ class Compressor {
             MAX_WINDOW = blockSize / blockSizeRatio;
             indexing = false;
         }
-        
+
         //reset table
         void init() {
             lastIndexEnd = 0;
@@ -199,9 +195,6 @@ class Compressor {
                 Arrays.fill(counter, 0);
             }
             numKeys = 0;
-
-            indexes = 0;
-            indexTime = 0;
         }
 
         void put(int refPos) {
@@ -219,8 +212,6 @@ class Compressor {
             }
             table[hash][counter[hash]] = refPos;
             counter[hash]++;
-
-            indexes++;
         }
 
         /**
@@ -228,7 +219,26 @@ class Compressor {
          */
         void get(int inpPos, int refPos) {
             if (!indexing) {
-                
+
+                //if there is a direct match
+                if (refPos + JDNA.KMER_SIZE < refLength
+                        && inpPos + JDNA.KMER_SIZE < inpLength
+                        && equals(refPos, inpPos)) {
+                    getResult[INPUT_MATCH_POSITION] = inpPos;
+                    getResult[REFERNECE_MATCH_POSITION] = refPos;
+                    return;
+                }
+
+                //Test for SNP
+                if (refPos + JDNA.KMER_SIZE < refLength
+                        && inpPos + JDNA.KMER_SIZE < inpLength
+                        && equals(refPos + 1, inpPos + 1)) {
+                    getResult[INPUT_MATCH_POSITION] = inpPos + 1;
+                    getResult[REFERNECE_MATCH_POSITION] = refPos + 1;
+                    indexing = false;
+                    return;
+                }
+
                 //Test for SNP
                 if (refPos + JDNA.KMER_SIZE < refLength
                         && inpPos + JDNA.KMER_SIZE < inpLength
@@ -293,7 +303,7 @@ class Compressor {
         private void index(int refPos) {
             if (lastIndexEnd != refLength) {
                 indexing = true;
-                
+
                 int start, end;
                 //don't index already indexed ref positions
                 if (refPos < lastIndexEnd) {
@@ -304,19 +314,10 @@ class Compressor {
                 end = start + JDNA.INDEX_WINDOW;
                 end = end > refLength ? refLength - JDNA.KMER_SIZE : end - JDNA.KMER_SIZE;
 
-/*
-                //clean table between indexings
-                if (start > lastIndexEnd + 10000) {
-                    Arrays.fill(counter, 0);
-                }
-*/
                 //actual indexing
-                st = System.currentTimeMillis();
                 for (int i = start; i < end; i++) {
                     put(i);
                 }
-                et = System.currentTimeMillis();
-                indexTime += (et - st);
                 lastIndexEnd = end;
             }
         }
