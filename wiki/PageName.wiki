@@ -1,0 +1,24 @@
+#JDNA usage
+
+java <jvm params> -jar JDNA.jar TASK REFERENCE INPUT OUTPUT
+
+Where
+	TASK is COMPRESS or DECOMPRESS;
+
+        REFERENCE is the path to the reference file;
+
+        INPUT is the path to the file to be compressed or decompressed;
+
+        OUTPUT is the path to the output file.
+
+Also, a config.ini is expected to be present, or these are the default values:
+
+        kmer_size=20
+
+        search_window=120
+
+        index_window=200
+
+        dcmp_mem=1 - this value is in MB
+
+        block_size=250 - this value is in MB
