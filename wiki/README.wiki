@@ -23,3 +23,19 @@ Also, a config.ini is expected to be present, or these are the default values:
     dcmp_mem=1 - this value is in MB 
 
     block_size=250 - this value is in MB 
+
+#Test case
+
+From the folder JDNA download the JDNA.jar, config,ini, ref_ex.raw and inp_ex.raw.
+
+To test compression run:
+
+`java -jar JDNA.jar COMPRESS ref_ex.raw inp_ex.raw cmp.raw`
+
+Then you can test decompression runnin:
+
+`java -jar JDNA.jar DECOMPRESS ref_ex.raw cmp.raw dcmp.raw`.
+
+Once both tasks are complete, you can use md5sum to verify that the decompresses file matches the input file:
+
+`md5sum inp_ex.raw dcmp.raw`
