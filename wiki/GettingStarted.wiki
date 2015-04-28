@@ -44,7 +44,7 @@ Execute the JDNA to compress the input sequence:
 $ java -jar JDNA.jar COMPRESS ref_ex.raw inp_ex.raw out_ex.cmp
 }}}
 
-Run the following _du_ command (with the _-b_ option for results in bytes) to verify the size of the input and output files:
+Run the following _du_ command to verify the size of the input and output files (in bytes using the _-b_ option):
 {{{
 $ du -b inp_ex.raw out_ex.cmp
 1032	inp_ex.raw
