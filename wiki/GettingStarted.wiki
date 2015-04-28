@@ -45,6 +45,8 @@ dcmp_mem=1 - this value is in MB
 block_size=250 - this value is in MB 
 }}}
 
+== Files for testing JDNA ==
+
 #Test case
 
 From the folder JDNA download the JDNA.jar, config,ini, ref_ex.raw and inp_ex.raw.
