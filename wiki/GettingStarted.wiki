@@ -56,7 +56,7 @@ Execute the JDNA to decompress the output file:
 $ java -jar JDNA.jar DECOMPRESS ref_ex.raw out_ex.cmp inp_ex_dcmp.raw
 }}}
 
-Run a checksum command to verify that the decompressed output is exactly the same as the original to-be-compressed input (JDNA is lossless):
+Run a checksum command (e.g., _md5sum_) to verify that the decompressed output is exactly the same as the original to-be-compressed input (JDNA is lossless):
 {{{
 $ md5sum inp_ex.raw inp_ex_dcmp.raw 
 9217d97a92cf8d76a92ef60a9101f468  inp_ex.raw
