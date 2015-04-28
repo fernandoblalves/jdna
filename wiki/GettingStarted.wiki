@@ -27,7 +27,7 @@ $ java -jar JDNA.jar COMPRESS human_g1k_v37.fasta HG01390.fasta HG01390.cmp
 $ java -jar JDNA.jar DECOMPRESS human_g1k_v37.fasta HG01390.cmp HG01390.fasta
 }}}
 
-== Straightforward example ==
+== A straightforward example ==
 
 Download the JAR file:
 {{{
@@ -80,3 +80,6 @@ index_window=200
 dcmp_mem=1 - this value is in MB 
 block_size=250 - this value is in MB 
 }}}
+
+== Notes and throubleshooting ==
+* JDNA accepts input files with two extensions: _.raw_ and _.fasta_. The former is a raw DNA sequence that contains only A, C, G, T, and N nucleotides, while the latter accepts files with commentary lines (i.e., lines started by the ">" character).
