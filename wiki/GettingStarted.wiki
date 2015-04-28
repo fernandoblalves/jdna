@@ -77,8 +77,8 @@ example:
 kmer_size=20
 search_window=120 
 index_window=200 
-dcmp_mem=1 - this value is in MB 
-block_size=250 - this value is in MB 
+dcmp_mem=1 
+block_size=250
 }}}
 
 == Notes and throubleshooting ==
