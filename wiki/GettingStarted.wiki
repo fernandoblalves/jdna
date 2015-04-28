@@ -20,11 +20,47 @@ arguments:
 
 example:
 {{{
-$ java -jar JDNA.jar COMPRESS human_g1k_v37.fasta HG01390.fasta HG01390.compressed
+$ java -jar JDNA.jar COMPRESS human_g1k_v37.fasta HG01390.fasta HG01390.cmp
 }}}
 
 {{{
-$ java -jar JDNA.jar DECOMPRESS human_g1k_v37.fasta HG01390.compressed HG01390.fasta
+$ java -jar JDNA.jar DECOMPRESS human_g1k_v37.fasta HG01390.cmp HG01390.fasta
+}}}
+
+== Straightforward example ==
+
+Download the JAR file:
+{{{
+$ wget  http://jdna.googlecode.com/svn/JDNA/JDNA.jar
+}}}
+
+Download two example files containing DNA sequences (1kB each):
+{{{
+$ wget http://jdna.googlecode.com/svn/JDNA/inp_ex.raw http://jdna.googlecode.com/svn/JDNA/ref_ex.raw
+}}}
+
+Execute the JDNA to compress the input sequence:
+{{{
+$ java -jar JDNA.jar COMPRESS ref_ex.raw inp_ex.raw out_ex.cmp
+}}}
+
+Run the following _du_ command (with the _-b_ option for results in bytes) to verify the size of the input and output files:
+{{{
+$ du -b inp_ex.raw out_ex.cmp
+1032	inp_ex.raw
+44	out_ex.cmp
+}}}
+
+Execute the JDNA to decompress the output file:
+{{{
+$ java -jar JDNA.jar DECOMPRESS ref_ex.raw out_ex.cmp inp_ex_dcmp.raw
+}}}
+
+Run a checksum command to verify that the decompressed output is exactly the same as the original to-be-compressed input (JDNA is lossless):
+{{{
+$ md5sum inp_ex.raw inp_ex_dcmp.raw 
+9217d97a92cf8d76a92ef60a9101f468  inp_ex.raw
+9217d97a92cf8d76a92ef60a9101f468  inp_ex_dcmp.raw
 }}}
 
 == Customizing JDNA ==
