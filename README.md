@@ -22,12 +22,12 @@ examples:
 
 Download the JAR file:
 
-    $ wget  http://jdna.googlecode.com/svn/JDNA/JDNA.jar
+    $ wget  https://github.com/Camandros/jdna/raw/master/JDNA/JDNA.jar
 
 Download two example files containing DNA sequences (1kB each):
 
-    $ wget https://github.com/Camandros/jdna/blob/master/JDNA/inp_ex.raw
-    $ wget https://github.com/Camandros/jdna/blob/master/JDNA/ref_ex.raw
+    $ wget https://raw.githubusercontent.com/Camandros/jdna/master/JDNA/ref_ex.raw
+    $ wget https://raw.githubusercontent.com/Camandros/jdna/master/JDNA/inp_ex.raw
 
 Execute the JDNA to compress the input sequence:
 
