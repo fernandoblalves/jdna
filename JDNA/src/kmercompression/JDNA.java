@@ -1,12 +1,6 @@
 package kmercompression;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.zip.GZIPOutputStream;
 
@@ -95,17 +89,25 @@ public class JDNA {
         int readRef;
         int readInput;
         int lineCounter = 0, charCounter = 0;
-        StringBuilder inputBuffer = new StringBuilder((int)blockSize + FASTA_LINE_SIZE_MARGIN);
-        StringBuilder surplus = new StringBuilder();
+        StringBuilder inputBuffer = null;
+        StringBuilder surplus = null;
 
         boolean inpHasComments = false;
         BufferedWriter commentWriter = null;
+
         String line = inputFile.getName();
-        String[] splitted = line.split("\\.");
-        
-        if (splitted[1].equals("fasta")) {
-            inpHasComments = true;
-            commentWriter = new BufferedWriter(new FileWriter(splitted[0] + ".ccom"));
+        int index = line.lastIndexOf(".");
+        if(index != -1 && index != 0){
+            String name, ext;
+            name = line.substring(0, index);
+            ext = line.substring(index+1);
+
+            if (ext.equals("fasta")) {
+                inpHasComments = true;
+                commentWriter = new BufferedWriter(new FileWriter(name + ".ccom"));
+                inputBuffer = new StringBuilder((int)blockSize + FASTA_LINE_SIZE_MARGIN);
+                surplus = new StringBuilder();
+            }
         }
 
         boolean done = false;
@@ -113,7 +115,8 @@ public class JDNA {
 
         BufferedReader refReader = new BufferedReader(new FileReader(refFile));
         BufferedReader inputReader = new BufferedReader(new FileReader(inputFile));
-        CompressionWriter outputWriter = new CompressionWriter(new BitOutputStream(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(outputFile)), ONEMB*10)), maxDigits);
+        CompressionWriter outputWriter = new CompressionWriter(new BitOutputStream(new BufferedOutputStream(
+                new GZIPOutputStream(new FileOutputStream(outputFile)), ONEMB*10)), maxDigits);
 
         Compressor compressor = new Compressor(effectiveSize);
         
@@ -122,18 +125,18 @@ public class JDNA {
 
         long et, st;
         long bs, be;
-        
-        LinkedList<String> comments = new LinkedList<String>();
+
+        LinkedList<String> comments = new LinkedList<>();
 
         st = System.currentTimeMillis();
 
         do {
             readInput = 0;
             readRef = refReader.read(ref);
-            inputBuffer.delete(0, inputBuffer.length());
-            if (readRef != effectiveSize) {
+            if (inputBuffer != null)
+                inputBuffer.delete(0, inputBuffer.length());
+            if (readRef != effectiveSize)
                 done = true;
-            }
 
             if (readRef != -1) {
                 compressor.init(readRef);
@@ -157,12 +160,14 @@ public class JDNA {
                             lineCounter++;
                         }
                     }
+
                     input = inputBuffer.toString().toCharArray();
                     surplus = inputBuffer.delete(0, effectiveSize);
                     readInput = input.length - surplus.length();
                     for(String s : comments){
                         commentWriter.write(s, 0, s.length());
                     }
+                    compressor.input = input;
                 } else {
                     readInput = inputReader.read(input);
                 }

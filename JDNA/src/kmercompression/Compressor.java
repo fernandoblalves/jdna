@@ -43,7 +43,7 @@ class Compressor {
     private int inpLength;
     //
     final char[] reference;
-    final char[] input;
+    char[] input;
     //
     private final int[] getResult;
     //
@@ -179,7 +179,7 @@ class Compressor {
 
         //create table
         KmerTable() {
-            tableSize = (int) blockSize / 5;
+            tableSize = blockSize / 5;
             table = new int[tableSize][];
             counter = new int[tableSize];
             setMultiplier(JDNA.KMER_SIZE);
