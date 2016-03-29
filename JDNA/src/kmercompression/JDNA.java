@@ -119,7 +119,7 @@ public class JDNA {
                 new GZIPOutputStream(new FileOutputStream(outputFile)), ONEMB*10)), maxDigits);
 
         Compressor compressor = new Compressor(effectiveSize);
-        
+
         char[] input = compressor.input;
         char[] ref = compressor.reference;
 
@@ -205,6 +205,8 @@ public class JDNA {
                 }
             } while (!done);
         }
+
+//        outputWriter.debug();
 
         outputWriter.writeTermination();
         outputWriter.flush();

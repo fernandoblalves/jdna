@@ -56,13 +56,12 @@ class CompressionWriter {
     private static final int _496 = 496;
     private static final int _1008 = 1008;
     private static final int _2032 = 2032;
-    
 
     CompressionWriter(BitOutputStream b, int m) {
         bos = b;
         maxBits = m;
-        characters = new ArrayList<Character>();
-        nPositions = new ArrayList<Integer>();
+        characters = new ArrayList<>();
+        nPositions = new ArrayList<>();
     }
 
     void writeChar(char c){
@@ -152,6 +151,7 @@ class CompressionWriter {
             }
             for (int i = 0; i < characters.size(); i++) {
                 char c = characters.get(i);
+
                 switch (c) {
                     case 'A': //0
                         bos.write(Compressor.CHAR_SIZE, AA);

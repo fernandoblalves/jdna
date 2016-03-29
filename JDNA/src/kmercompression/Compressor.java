@@ -219,7 +219,7 @@ class Compressor {
          */
         void get(int inpPos, int refPos) {
             if (!indexing) {
-
+/*
                 //if there is a direct match
                 if (refPos + JDNA.KMER_SIZE < refLength
                         && inpPos + JDNA.KMER_SIZE < inpLength
@@ -228,17 +228,7 @@ class Compressor {
                     getResult[REFERNECE_MATCH_POSITION] = refPos;
                     return;
                 }
-
-                //Test for SNP
-                if (refPos + JDNA.KMER_SIZE < refLength
-                        && inpPos + JDNA.KMER_SIZE < inpLength
-                        && equals(refPos + 1, inpPos + 1)) {
-                    getResult[INPUT_MATCH_POSITION] = inpPos + 1;
-                    getResult[REFERNECE_MATCH_POSITION] = refPos + 1;
-                    indexing = false;
-                    return;
-                }
-
+*/
                 //Test for SNP
                 if (refPos + JDNA.KMER_SIZE < refLength
                         && inpPos + JDNA.KMER_SIZE < inpLength

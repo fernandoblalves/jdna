@@ -212,6 +212,8 @@ public class Decompressor {
                         break;
                 }
 
+                if(change && done) break;
+
                 do {
                     b = bis.read(1);
                     if (debugDecompression) {
@@ -470,22 +472,8 @@ public class Decompressor {
                 dcmpWriter.write(ref[i]);
                 totalCounter++;
                 charCounter = (charCounter + 1) % JDNA.FASTA_LINE_SIZE;
-                if (sizes.size() > 0 && totalCounter == sizes.get(0)) {
-                    charCounter = 0;
-                    sizes.remove(0);
-                }
-                if (charCounter == 0) {
-                    if (positions.size() > 0 && positions.get(0) == lineCounter) {
-                        positions.remove();
-                        if (lineCounter != 0) {
-                            dcmpWriter.write('\n');
-                        }
-                        dcmpWriter.write(comments.remove().getBytes());
-                    }
-                    dcmpWriter.write('\n');
-                    lineCounter++;
-                }
 
+                addLineBreaks();
             }
         }
     }
@@ -494,21 +482,8 @@ public class Decompressor {
         if (!hasComments) {
             dcmpWriter.write(c);
         } else {
-            if (sizes.size() > 0 && totalCounter == sizes.get(0)) {
-                charCounter = 0;
-                sizes.remove(0);
-            }
-            if (charCounter == 0) {
-                if (positions.size() > 0 && positions.get(0) == lineCounter) {
-                    positions.remove();
-                    if (lineCounter != 0) {
-                        dcmpWriter.write('\n');
-                    }
-                    dcmpWriter.write(comments.remove().getBytes());
-                }
-                dcmpWriter.write('\n');
-                lineCounter++;
-            }
+            addLineBreaks();
+
             dcmpWriter.write(c);
             totalCounter++;
             charCounter = (charCounter + 1) % JDNA.FASTA_LINE_SIZE;
@@ -520,25 +495,30 @@ public class Decompressor {
             dcmpWriter.write(ref);
         } else {
             for (int i = 0; i < ref.length; i++) {
-                if (sizes.size() > 0 && totalCounter == sizes.get(0)) {
-                    charCounter = 0;
-                    sizes.remove(0);
-                }
-                if (charCounter == 0) {
-                    if (positions.size() > 0 && positions.get(0) == lineCounter) {
-                        positions.remove();
-                        if (lineCounter != 0) {
-                            dcmpWriter.write('\n');
-                        }
-                        dcmpWriter.write(comments.remove().getBytes());
-                    }
-                    dcmpWriter.write('\n');
-                    lineCounter++;
-                }
+                addLineBreaks();
+
                 dcmpWriter.write(ref[i]);
                 totalCounter++;
                 charCounter = (charCounter + 1) % JDNA.FASTA_LINE_SIZE;
             }
+        }
+    }
+
+    private void addLineBreaks() throws Exception {
+        if (sizes.size() > 0 && totalCounter == sizes.get(0)) {
+            charCounter = 0;
+            sizes.remove(0);
+        }
+        if (charCounter == 0) {
+            if (positions.size() > 0 && positions.get(0) == lineCounter) {
+                positions.remove();
+                if (lineCounter != 0) {
+                    dcmpWriter.write('\n');
+                }
+                dcmpWriter.write(comments.remove().getBytes());
+            }
+            dcmpWriter.write('\n');
+            lineCounter++;
         }
     }
 }
