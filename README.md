@@ -1,3 +1,6 @@
+#JDNA
+JDNA is an implementation of the On-Demand Indexing algorithm for referential compression of aligned DNA sequences proposed in [this paper](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0132460 "ODI Article"). Note that the reference must always be in raw format (no endlines or comments, only base-pairs). I recommend using references consisting only of A,C,T,G or N, since compression is made to deal only with these bps.
+
 #Using JDNA
 This tutorial explains how to use JDNA to compress DNA sequences based on a representative reference.
 
@@ -15,8 +18,8 @@ arguments:
 
 examples:
 
-    $ java -jar JDNA.jar COMPRESS human_g1k_v37.fasta HG01390.fasta HG01390.cmp
-    $ java -jar JDNA.jar DECOMPRESS human_g1k_v37.fasta HG01390.cmp HG01390.fasta
+    $ java -jar JDNA.jar COMPRESS human_g1k_v37.raw HG01390.fasta HG01390.cmp
+    $ java -jar JDNA.jar DECOMPRESS human_g1k_v37.raw HG01390.cmp HG01390.fasta
 
 ## A straightforward example ##
 
@@ -71,3 +74,9 @@ example:
 
 ## Notes and throubleshooting ##
   * JDNA accepts input files with two extensions: _.raw_ and _.fasta_. The former is a raw DNA sequence that contains only A, C, G, T, and N nucleotides, while the latter accepts files with comment lines (i.e., lines started by the ">" character).
+  * If the file is a _.fasta_ then a _.ccom_ file is generated. The _.ccom_ file has the comments present in the FASTA file and the line numbers of those comments. For decompression, the compressed _cmp_ file is assigned as input. JDNA will then search for a _.ccom_ file with the same name as the _cmp_ file. If the _.ccom_ file is found then a _.fasta_ file is generated.
+
+Example (note that the file name is always **HG01390**):
+
+    $ java -jar JDNA.jar COMPRESS human_g1k_v37.raw HG01390.fasta HG01390.cmp
+    $ java -jar JDNA.jar DECOMPRESS human_g1k_v37.raw HG01390.cmp HG01390.fasta
